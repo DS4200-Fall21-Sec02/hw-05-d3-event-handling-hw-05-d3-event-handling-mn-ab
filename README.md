@@ -2,7 +2,7 @@
 
 This repository is your starting point for hw-05. Assignment details and instructions are below. 
 
-Link to your GitHub pages website: `[insert your *clickable* hyperlink here]`
+Link to your GitHub pages website: https://ds4200-fall21-sec02.github.io/hw-05-d3-event-handling-mn-ab/
 
 # Aim of the assignment
 
