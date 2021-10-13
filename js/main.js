@@ -25,7 +25,9 @@ let rect = svg.append('rect')
   .attr('y', '200')
   .attr('width', '20%')
   .attr('height', '20%')
-  .attr('fill', '#a6cee3'); 
+  .attr('fill', '#a6cee3')
+  .on("dblclick", function(){var nextColor = this.style.fill == "white" ? "magenta" : "white";
+        d3.select(this).style("fill", nextColor);});
 
 // Add a circle 
 let circle = svg.append('circle') 
