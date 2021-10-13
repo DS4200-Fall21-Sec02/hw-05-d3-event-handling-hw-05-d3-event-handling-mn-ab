@@ -25,10 +25,10 @@ let rect = svg.append('rect')
   .attr('y', '200')
   .attr('width', '20%')
   .attr('height', '20%')
-  .attr('fill', '#a6cee3')
+  .attr('fill', 'pink')
   .on('mouseover', function () {
     d3.select(this)
-      .attr('stroke', '#4598C4')
+      .attr('stroke', '#db7093')
       .attr('stroke-width',3)
   })
     // point unselected
@@ -40,7 +40,17 @@ let rect = svg.append('rect')
     .on('start', dragStart)
     .on('drag', dragRect)
     .on('end', dragEnd)
-  );
+  )
+  // Click functionality
+  .on("click", function(){
+    // console.log("1x")
+    // Array of colors to choose at every click
+    var colors = ['#23049D','#AA2EE6','#FF79CD','#FFDF6B','#FA9905','#FF5200','#9EDE73','#98DED9','#E8F044','#323EDD','#DC2ADE','#FFD5E5','#C0FFB3'];
+    // Random index generator
+    var randomChoice = Math.floor(Math.random() * colors.length);
+    // Change circle color to random selection
+    d3.select('circle').style("fill", colors[randomChoice])
+  });
 
 // Add a circle 
 let circle = svg.append('circle') 
@@ -58,6 +68,8 @@ let circle = svg.append('circle')
     d3.select(this)
       .attr('stroke-width',0)
   })
+  
+  // Double click functionality
   .on("dblclick", function(){
     // console.log("2x")
     // Check the color of the circle element
@@ -71,15 +83,7 @@ let circle = svg.append('circle')
       d3.select('rect').style("fill", 'pink')
     };
   })
-  .on("click", function(){
-    // console.log("1x")
-    // Array of colors to choose at every click
-    var colors = ['#23049D','#AA2EE6','#FF79CD','#FFDF6B','#FA9905','#FF5200','#9EDE73','#98DED9','#E8F044','#323EDD','#DC2ADE','#FFD5E5','#C0FFB3'];
-    // Random index generator
-    var randomChoice = Math.floor(Math.random() * colors.length);
-    // Change circle color to random selection
-    d3.select('circle').style("fill", colors[randomChoice])
-  })
+  
   .call(d3.drag()
     .on('start', dragStart)
     .on('drag', dragCircle)
