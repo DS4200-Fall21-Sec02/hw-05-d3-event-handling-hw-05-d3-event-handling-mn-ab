@@ -27,7 +27,23 @@ let rect = svg.append('rect')
   .attr('height', '20%')
   .attr('fill', '#a6cee3')
   .on("dblclick", function(){var nextColor = this.style.fill == "white" ? "magenta" : "white";
-        d3.select(this).style("fill", nextColor);});
+        d3.select(this).style("fill", nextColor);})
+  .on('mouseover', function () {
+    d3.select(this)
+      .attr('stroke', '#4598C4')
+      .attr('stroke-width',3)
+  })
+    // point unselected
+  .on('mouseout', function () {
+    d3.select(this)
+      .attr('stroke-width',0)
+  })
+  // https://stackoverflow.com/a/64596477
+  .call(d3.drag()
+    .on('start', dragStart)
+    .on('drag', dragRect)
+    .on('end', dragEnd)
+  );
 
 // Add a circle 
 let circle = svg.append('circle') 
@@ -35,6 +51,41 @@ let circle = svg.append('circle')
   .attr('cy', '250')
   .attr('r', '60')
   .attr('fill', '#b2df8a')
+  .on('mouseover', function () {
+    d3.select(this)
+      .attr('stroke', '#80CA3F')
+      .attr('stroke-width',3)
+  })
+    // point unselected
+  .on('mouseout', function () {
+    d3.select(this)
+      .attr('stroke-width',0)
+  })
+  .call(d3.drag()
+    .on('start', dragStart)
+    .on('drag', dragCircle)
+    .on('end', dragEnd)
+  );
 
+  function dragStart(event,d){
+    this.parentNode.appendChild(this) // https://stackoverflow.com/a/18362953
+  }
+      
+  function dragRect(event,d){
+    var xCoor = event.x;
+    var yCoor = event.y;
+    d3.select(this)
+      .attr("x", xCoor)
+      .attr("y", yCoor);
+  }
 
-
+  function dragCircle(event,d){
+    var xCoor = event.x;
+    var yCoor = event.y;
+    d3.select(this)
+      .attr("cx", xCoor)
+      .attr("cy", yCoor);
+  }
+  
+  function dragEnd(event,d){
+  }
