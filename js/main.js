@@ -26,31 +26,32 @@ let rect = svg.append('rect')
   .attr('width', '20%')
   .attr('height', '20%')
   .attr('fill', 'pink')
+  //point selected
   .on('mouseover', function () {
     d3.select(this)
-      .attr('stroke', '#db7093')
+      .attr('stroke', 'black')
       .attr('stroke-width',3)
   })
-    // point unselected
+  // point unselected
   .on('mouseout', function () {
     d3.select(this)
       .attr('stroke-width',0)
   })
-  .call(d3.drag() // https://stackoverflow.com/a/64596477
-    .on('start', dragStart)
-    .on('drag', dragRect)
-    .on('end', dragEnd)
-  )
   // Click functionality
   .on("click", function(){
-    // console.log("1x")
     // Array of colors to choose at every click
     var colors = ['#23049D','#AA2EE6','#FF79CD','#FFDF6B','#FA9905','#FF5200','#9EDE73','#98DED9','#E8F044','#323EDD','#DC2ADE','#FFD5E5','#C0FFB3'];
     // Random index generator
     var randomChoice = Math.floor(Math.random() * colors.length);
     // Change circle color to random selection
     d3.select('circle').style("fill", colors[randomChoice])
-  });
+  })
+  //drag functionality
+  .call(d3.drag() // https://stackoverflow.com/a/64596477
+    .on('start', dragStart)
+    .on('drag', dragRect)
+    .on('end', dragEnd)
+  );
 
 // Add a circle 
 let circle = svg.append('circle') 
@@ -58,12 +59,13 @@ let circle = svg.append('circle')
   .attr('cy', '250')
   .attr('r', '60')
   .attr('fill', '#b2df8a')
+  // point selected
   .on('mouseover', function () {
     d3.select(this)
-      .attr('stroke', '#80CA3F')
+      .attr('stroke', 'black')
       .attr('stroke-width',3)
   })
-    // point unselected
+  // point unselected
   .on('mouseout', function () {
     d3.select(this)
       .attr('stroke-width',0)
@@ -71,7 +73,6 @@ let circle = svg.append('circle')
   
   // Double click functionality
   .on("dblclick", function(){
-    // console.log("2x")
     // Check the color of the circle element
     var nextColor = this.style.fill == "pink" ? "#b2df8a" : "pink";
     // Update with toggle value
@@ -83,33 +84,45 @@ let circle = svg.append('circle')
       d3.select('rect').style("fill", 'pink')
     };
   })
-  
+  //drag functionality
   .call(d3.drag()
     .on('start', dragStart)
     .on('drag', dragCircle)
     .on('end', dragEnd)
   );
 
+  //drag event started
   function dragStart(event,d){
+    // make drag and click events work independently
     event.stopPropagation(); //https://stackoverflow.com/a/10096323
+    // put object on top
     this.parentNode.appendChild(this); // https://stackoverflow.com/a/18362953
   }
       
+  // drag event for an object with x and y attributes
   function dragRect(event,d){
+    //get mouse coordinates
     var xCoor = event.x;
     var yCoor = event.y;
+    //set mouse coordinates on object
     d3.select(this)
       .attr("x", xCoor)
       .attr("y", yCoor);
   }
 
+  // drag event for an object with cx and cy attributes
   function dragCircle(event,d){
-    var xCoor = event.x;
-    var yCoor = event.y;
+    //get mouse coordinates
+    var xCoordinates = event.x;
+    var yCoordinates = event.y;
+    //set mouse coordinates on object
     d3.select(this)
-      .attr("cx", xCoor)
-      .attr("cy", yCoor);
+      .attr("cx", xCoordinates)
+      .attr("cy", yCoordinates);
   }
   
+  //required for drag
   function dragEnd(event,d){
+    // put object on top
+    this.parentNode.appendChild(this); // https://stackoverflow.com/a/18362953
   }
