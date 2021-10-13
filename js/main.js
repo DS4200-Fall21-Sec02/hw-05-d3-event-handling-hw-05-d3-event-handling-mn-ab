@@ -94,8 +94,6 @@ let circle = svg.append('circle')
   function dragStart(event,d){
     // make drag and click events work independently
     event.stopPropagation(); //https://stackoverflow.com/a/10096323
-    // put object on top
-    this.parentNode.appendChild(this); // https://stackoverflow.com/a/18362953
   }
       
   // drag event for an object with x and y attributes
@@ -107,6 +105,8 @@ let circle = svg.append('circle')
     d3.select(this)
       .attr("x", xCoor)
       .attr("y", yCoor);
+    // put object on top
+    this.parentNode.appendChild(this); // https://stackoverflow.com/a/18362953
   }
 
   // drag event for an object with cx and cy attributes
@@ -118,6 +118,8 @@ let circle = svg.append('circle')
     d3.select(this)
       .attr("cx", xCoordinates)
       .attr("cy", yCoordinates);
+    // put object on top
+    this.parentNode.appendChild(this); // https://stackoverflow.com/a/18362953
   }
   
   //required for drag
