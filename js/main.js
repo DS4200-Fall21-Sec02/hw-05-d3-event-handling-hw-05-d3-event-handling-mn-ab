@@ -70,7 +70,12 @@ let circle = svg.append('circle')
     d3.select(this)
       .attr('stroke-width',0)
   })
-  
+  //drag functionality
+  .call(d3.drag()
+    .on('start', dragStart)
+    .on('drag', dragCircle)
+    .on('end', dragEnd)
+  )
   // Double click functionality
   .on("dblclick", function(){
     // Check the color of the circle element
@@ -83,13 +88,7 @@ let circle = svg.append('circle')
     } else {
       d3.select('rect').style("fill", 'pink')
     };
-  })
-  //drag functionality
-  .call(d3.drag()
-    .on('start', dragStart)
-    .on('drag', dragCircle)
-    .on('end', dragEnd)
-  );
+  });
 
   //drag event started
   function dragStart(event,d){
@@ -123,6 +122,4 @@ let circle = svg.append('circle')
   
   //required for drag
   function dragEnd(event,d){
-    // put object on top
-    this.parentNode.appendChild(this); // https://stackoverflow.com/a/18362953
   }
