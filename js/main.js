@@ -26,8 +26,6 @@ let rect = svg.append('rect')
   .attr('width', '20%')
   .attr('height', '20%')
   .attr('fill', '#a6cee3')
-  .on("dblclick", function(){var nextColor = this.style.fill == "white" ? "magenta" : "white";
-        d3.select(this).style("fill", nextColor);})
   .on('mouseover', function () {
     d3.select(this)
       .attr('stroke', '#4598C4')
@@ -38,8 +36,7 @@ let rect = svg.append('rect')
     d3.select(this)
       .attr('stroke-width',0)
   })
-  // https://stackoverflow.com/a/64596477
-  .call(d3.drag()
+  .call(d3.drag() // https://stackoverflow.com/a/64596477
     .on('start', dragStart)
     .on('drag', dragRect)
     .on('end', dragEnd)
@@ -61,6 +58,28 @@ let circle = svg.append('circle')
     d3.select(this)
       .attr('stroke-width',0)
   })
+  .on("dblclick", function(){
+    // console.log("2x")
+    // Check the color of the circle element
+    var nextColor = this.style.fill == "pink" ? "#b2df8a" : "pink";
+    // Update with toggle value
+    d3.select(this).style("fill", nextColor)
+    // Change square according to circle actual value
+    if (this.style.fill == "pink") {
+      d3.select('rect').style("fill", '#b2df8a')
+    } else {
+      d3.select('rect').style("fill", 'pink')
+    };
+  })
+  .on("click", function(){
+    // console.log("1x")
+    // Array of colors to choose at every click
+    var colors = ['#23049D','#AA2EE6','#FF79CD','#FFDF6B','#FA9905','#FF5200','#9EDE73','#98DED9','#E8F044','#323EDD','#DC2ADE','#FFD5E5','#C0FFB3'];
+    // Random index generator
+    var randomChoice = Math.floor(Math.random() * colors.length);
+    // Change circle color to random selection
+    d3.select('circle').style("fill", colors[randomChoice])
+  })
   .call(d3.drag()
     .on('start', dragStart)
     .on('drag', dragCircle)
@@ -68,7 +87,8 @@ let circle = svg.append('circle')
   );
 
   function dragStart(event,d){
-    this.parentNode.appendChild(this) // https://stackoverflow.com/a/18362953
+    event.stopPropagation(); //https://stackoverflow.com/a/10096323
+    this.parentNode.appendChild(this); // https://stackoverflow.com/a/18362953
   }
       
   function dragRect(event,d){
